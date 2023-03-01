@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d31ccecf16173714483a8de8b6a04b4e, type: 3}
   m_Name: ColoredHeaderCreatorSettings
   m_EditorClassIdentifier: 
-  headerText: ENEMIES
-  headerColor: {r: 1, g: 0, b: 0, a: 1}
+  headerText: MANAGERS
+  headerColor: {r: 0.05378294, g: 1, b: 0, a: 1}
   editorOnly: 1
   textAlignmentOptions: 0
   fontStyleOptions: 0
