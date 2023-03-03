@@ -13,6 +13,10 @@ namespace StarterAssets
 		public bool jump;
 		public bool sprint;
 		public bool shoot;
+		public bool throwGrenade;
+		public bool interact;
+
+
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -49,6 +53,16 @@ namespace StarterAssets
 		{
 			shoot = value.isPressed;
 		}
+		public void OnThrowGrenade(InputValue value)
+		{
+			throwGrenade = value.isPressed;
+		}
+
+		public void OnInteract(InputValue value)
+        {
+			interact = value.isPressed;
+		}
+
 #endif
 
 
@@ -82,5 +96,4 @@ namespace StarterAssets
 			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
 		}
 	}
-	
 }
