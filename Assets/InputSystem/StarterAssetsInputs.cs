@@ -51,8 +51,9 @@ namespace StarterAssets
 
 		public void OnShoot(InputValue value)
 		{
-			shoot = value.isPressed;
+			ShootInput(value.isPressed);
 		}
+
 		public void OnThrowGrenade(InputValue value)
 		{
 			throwGrenade = value.isPressed;
@@ -60,7 +61,7 @@ namespace StarterAssets
 
 		public void OnInteract(InputValue value)
         {
-			interact = value.isPressed;
+			InteractInput(value.isPressed);	
 		}
 
 #endif
@@ -81,6 +82,11 @@ namespace StarterAssets
 			jump = newJumpState;
 		}
 
+		public void ShootInput(bool newShootState)
+        {
+			shoot = newShootState;
+        }
+
 		public void SprintInput(bool newSprintState)
 		{
 			sprint = newSprintState;
@@ -89,6 +95,13 @@ namespace StarterAssets
 		private void OnApplicationFocus(bool hasFocus)
 		{
 			SetCursorState(cursorLocked);
+		}
+
+		public void InteractInput(bool isInteracting)
+        {
+			print(isInteracting . ToString());
+
+			interact = isInteracting;
 		}
 
 		private void SetCursorState(bool newState)

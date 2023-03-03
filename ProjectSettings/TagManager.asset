@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CinemachineTarget
   - collectable
+  - munition1
   layers:
   - Default
   - TransparentFX
