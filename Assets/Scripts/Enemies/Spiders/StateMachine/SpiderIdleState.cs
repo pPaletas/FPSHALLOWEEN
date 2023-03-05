@@ -7,11 +7,30 @@ public class SpiderIdleState : SpiderBaseState
 
     public SpiderIdleState(SpiderStateMachine stateMachine) : base(stateMachine) { }
 
+    public override void Enter()
+    {
+        base.Enter();
+        stateMachine.animationListener.standUpEnd += OnStandUpAnimationEnd;
+    }
+
     public override void Tick()
     {
         base.Tick();
-
         CheckTransitions();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        stateMachine.animationListener.standUpEnd -= OnStandUpAnimationEnd;
+    }
+
+    protected virtual void CheckTransitions()
+    {
+        if (!_detectedPlayer && CheckForAnyTarget())
+        {
+            stateMachine.animator.SetTrigger(stateMachine.animStandUpHash);
+        }
     }
 
     private bool CheckForAnyTarget()
@@ -33,19 +52,8 @@ public class SpiderIdleState : SpiderBaseState
         return false;
     }
 
-    protected virtual void CheckTransitions()
+    private void OnStandUpAnimationEnd()
     {
-        if (!_detectedPlayer && CheckForAnyTarget())
-        {
-            stateMachine.animator.SetTrigger(stateMachine.anim_standUpHash);
-        }
-    }
-}
-
-public class SpiderFollowState : SpiderBaseState
-{
-    public SpiderFollowState(SpiderStateMachine stateMachine) : base(stateMachine)
-    {
-
+        stateMachine.SetState(new SpiderFollowState(stateMachine));
     }
 }
