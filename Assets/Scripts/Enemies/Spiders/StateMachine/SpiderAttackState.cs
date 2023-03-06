@@ -9,14 +9,14 @@ public class SpiderAttackState : SpiderBaseState
         stateMachine.animationListener.attack += OnAttack;
         stateMachine.animationListener.attackEnd += OnFinish;
         stateMachine.animator.SetTrigger(stateMachine.animAttackHash);
-        // stateMachine.lookAtTarget.SetLookAtActive(false);
+        stateMachine.lookAtTarget.SetLookAtActive(false);
     }
 
     public override void Exit()
     {
         stateMachine.animationListener.attack -= OnAttack;
         stateMachine.animationListener.attackEnd -= OnFinish;
-        // stateMachine.lookAtTarget.SetLookAtActive(true);
+        stateMachine.lookAtTarget.SetLookAtActive(true);
     }
 
     private void OnAttack()

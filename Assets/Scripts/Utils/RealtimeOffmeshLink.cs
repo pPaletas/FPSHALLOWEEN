@@ -91,7 +91,7 @@ public class RealtimeOffmeshLink : MonoBehaviour
         if (!EditorApplication.isPlaying)
         {
             Gizmos.matrix = transform.localToWorldMatrix;
-            Gizmos.DrawWireCube(Vector3.zero, new Vector3(1f, 1f, _width));
+            Gizmos.DrawWireCube(Vector3.zero, new Vector3(0.2f, 0.2f, _width));
         }
 #endif
     }

@@ -59,19 +59,33 @@ public class SpiderStartClimbState : SpiderBaseState
         else stateMachine.isBezierClimbPaused = false;
     }
 
+    private bool IsInAngle()
+    {
+        Vector3 mouthPos = stateMachine.mouth.position;
+        Vector3 posDifference = stateMachine.currentTarget.position - mouthPos;
+
+        // Me da el vector normalizado hacia el jugador, proyectado en el propio Y
+        Vector3 difOnPlane = Vector3.ProjectOnPlane(posDifference, stateMachine.transform.up);
+        Vector3 unit = difOnPlane.normalized;
+
+        // Me da el forward projectado en el propio Y
+        Vector3 fwdOnPlane = Vector3.ProjectOnPlane(stateMachine.mouth.parent.forward, stateMachine.transform.up);
+
+        // Me da el angulo de ambos vectores proyectados
+        float angleDif = Mathf.Acos(Vector3.Dot(unit, fwdOnPlane)) * Mathf.Rad2Deg;
+
+        bool isInAngle = angleDif <= stateMachine.spitAngle;
+
+        return isInAngle;
+    }
+
     private void CheckIfCanSpit(float distance)
     {
-        Vector3 plrPos = stateMachine.currentTarget.position;
-        Vector3 plrDir = (plrPos - stateMachine.transform.position).normalized;
-        float angle = Mathf.Acos(Vector3.Dot(plrDir, stateMachine.transform.forward)) * Mathf.Rad2Deg;
-
         bool isTargetCloseEnough = distance <= stateMachine.spitMaxDistance;
-        bool isInAngle = angle <= stateMachine.attackAngle;
 
-        if (isTargetCloseEnough && isInAngle)
+        if (isTargetCloseEnough && IsInAngle())
         {
             _targetReached = true;
-            stateMachine.attackCooldown.StartTimer();
             stateMachine.SetState(new SpiderSpitState(stateMachine));
         }
     }
