@@ -7,6 +7,7 @@ public class PoisonousProjectile : MonoBehaviour
 {
     [SerializeField] private float _initialDamage = 10f;
     [SerializeField] private float _damageRadius = 4f;
+    [SerializeField] private float _damage = 10f;
     [SerializeField] private float _poisonDamage = 4f;
     [SerializeField] private float _posionTime = 5f;
 
@@ -36,6 +37,7 @@ public class PoisonousProjectile : MonoBehaviour
 
             if (isPlayer && col.TryGetComponent<Health>(out Health health))
             {
+                health.TakeDamage(_damage);
                 health.Poison(_poisonDamage, _posionTime);
             }
         }

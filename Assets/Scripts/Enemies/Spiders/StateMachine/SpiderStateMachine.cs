@@ -50,6 +50,7 @@ public class SpiderStateMachine : MonoBehaviour
     [HideInInspector] public Health health;
 
     // Explosive rush
+    [HideInInspector] public GameObject explosionParticle;
     [HideInInspector] public bool isInRushMode = false;
 
     // Bezier climb
@@ -94,6 +95,9 @@ public class SpiderStateMachine : MonoBehaviour
     public void Detonate()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius, ~groundLayer);
+
+        explosionParticle.transform.SetParent(null);
+        explosionParticle.SetActive(true);
 
         foreach (Collider collider in colliders)
         {
@@ -154,6 +158,7 @@ public class SpiderStateMachine : MonoBehaviour
         // Estado explosivo
         if (spiderType == SpiderType.Mohammed)
         {
+            explosionParticle = transform.Find("Explosion").gameObject;
             loadExplosion = transform.parent.Find("Timers/LoadingExplosion").GetComponent<Timer>();
             explosiveRush = transform.parent.Find("Timers/ExplosiveRush").GetComponent<Timer>();
             explosiveRush.onTimerEnded += Detonate;
@@ -168,7 +173,7 @@ public class SpiderStateMachine : MonoBehaviour
         // Variables hijas
         animator = GetComponentInChildren<Animator>();
         animationListener = GetComponentInChildren<AnimationEventsListener>();
-        lookAtTarget = GetComponentInChildren<SpiderLookAtTarget>();
+        lookAtTarget = GetComponent<SpiderLookAtTarget>();
         if (spiderType == SpiderType.Spitter) mouth = transform.Find("Body/Head/Mouth");
 
         // Variables propias
