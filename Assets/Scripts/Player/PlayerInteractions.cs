@@ -6,6 +6,7 @@ using StarterAssets;
 public class PlayerInteractions : MonoBehaviour
 {
     private StarterAssetsInputs _input;
+    private CharacterAnimationManager m_characterAnimationManager;
     public GameObject grenadeSpawnerEmpty;
     GrenadeSpawner m_grenadeSpawner;
     public GameObject gunScriptHolder;
@@ -15,6 +16,8 @@ public class PlayerInteractions : MonoBehaviour
     void Start()
     {
         _input = transform.root.GetComponent<StarterAssetsInputs>();
+        m_characterAnimationManager = GetComponent<CharacterAnimationManager>();
+
         if (grenadeSpawnerEmpty != null)
         {
             m_grenadeSpawner = grenadeSpawnerEmpty.GetComponent<GrenadeSpawner>();
@@ -41,8 +44,46 @@ public class PlayerInteractions : MonoBehaviour
         {
             if (m_gun != null)
             {
-                m_gun.Shoot();
+                if (m_characterAnimationManager.characterAnimator.GetBool("hasShotgun"))
+                {
+                    m_gun.Shoot(true);
+                } 
+                else
+                {
+                    m_gun.Shoot(false);
+                }
+                m_characterAnimationManager.AnimateShootAnimation();
             } 
+        }
+
+        if (_input.shoot == false)
+        {
+            if (m_gun != null)
+            {
+                m_characterAnimationManager.StopShootAnimation();
+            }
+        }
+
+        if(_input.hasSwitchWeapon)
+        {
+            print("se ordenó switchear");
+
+            if (m_characterAnimationManager.characterAnimator.GetBool("hasShotgun"))
+            {
+                m_characterAnimationManager.characterAnimator.SetBool("hasShotgun", false);
+                m_characterAnimationManager.AnimateWeaponChange();
+                m_characterAnimationManager.HideShotGun();
+            }
+            else
+            {
+                m_characterAnimationManager.characterAnimator.SetBool("hasShotgun", true);
+                m_characterAnimationManager.AnimateWeaponChange();
+                m_characterAnimationManager.HideGun();
+            }
+
+
+
+            _input.hasSwitchWeapon = false;
         }
 
         if (_input.interact)

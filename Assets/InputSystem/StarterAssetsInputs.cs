@@ -15,6 +15,7 @@ namespace StarterAssets
 		public bool shoot;
 		public bool throwGrenade;
 		public bool interact;
+		public bool hasSwitchWeapon;
 
 
 
@@ -64,6 +65,11 @@ namespace StarterAssets
 			InteractInput(value.isPressed);	
 		}
 
+		public void OnChangeWeapon(InputValue value)
+        {
+			SwitchWeapon(value.isPressed);
+		}
+
 #endif
 
 
@@ -102,6 +108,12 @@ namespace StarterAssets
 			print(isInteracting . ToString());
 
 			interact = isInteracting;
+		}
+
+		public void SwitchWeapon(bool isSwitching)
+        {
+			hasSwitchWeapon = isSwitching;
+
 		}
 
 		private void SetCursorState(bool newState)
